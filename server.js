@@ -5,10 +5,12 @@ const MongoClient = require('mongodb').MongoClient
 
 
 MongoClient.connect(connectionString, (err, client) => {
-  'mongodb+srv://<natepeach>:<717ChulaVistaWay>@sanity-app.nhg4sln.mongodb.net/?retryWrites=true&w=majority'
+  'mongodb+srv://<Nate Peach>:<717ChulaVistaWay>@sanity-app.nhg4sln.mongodb.net/?retryWrites=true&w=majority'
 })
 
-MongoClient.connect(connectionString, (err, client) => {
+MongoClient.connect(connectionString, {
+  useUnifiedTopology: true
+}, (err, client) => {
   if (err) return console.error(err)
   console.log('Connected to Database')
 })
