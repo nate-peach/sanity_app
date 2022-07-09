@@ -3,20 +3,16 @@ const app = express();
 const bodyParser= require('body-parser')
 const MongoClient = require('mongodb').MongoClient
 
-
-MongoClient.connect(connectionString, (err, client) => {
-  'mongodb+srv://<Nate Peach>:<717ChulaVistaWay>@sanity-app.nhg4sln.mongodb.net/?retryWrites=true&w=majority'
-})
-
-MongoClient.connect(connectionString, {
-  useUnifiedTopology: true
-}, (err, client) => {
-  if (err) return console.error(err)
+MongoClient.connect('mongodb+srv://natepeach:8786@sanity-app.nhg4sln.mongodb.net/?retryWrites=true&w=majority', 
+{useUnifiedTopology: true})
+.then(client => {
   console.log('Connected to Database')
+  const db = client.db('sanity-quotes')
+  const quotesCollection = db.collection('quotes')
 })
+.catch(error => console.error(error))
 
 app.use(bodyParser.urlencoded({ extended: true }))
-
 
 app.listen(3000, function() {
     console.log('listening on 3000')
@@ -30,4 +26,9 @@ app.get('/', (req, res) => {
 
 app.post('/quotes', (req, res) => {
     console.log(req.body)
+    quotesCollection.insertOne(req.body)
+    .then(result => {
+      console.log(result)
+    })
+    .catch(error => console.error(error))
   })
